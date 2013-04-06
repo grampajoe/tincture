@@ -9,8 +9,5 @@ setup(
     author='Joe Friedl',
     author_email='joe@joefriedl.net',
     packages=['tincture'],
-    install_requires=[
-        'Django==1.4',
-        'SQLAlchemy==0.7.8',
-    ]
+    install_requires=open('requirements.txt').readlines(),
 )
