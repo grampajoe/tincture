@@ -70,14 +70,9 @@ MultipleObjectMixin
 
     .. method:: paginate_query_object(query_object, page_size)
 
-        Returns a 4-tuple containing (paginator, page, object_list,
-        is_paginated).
-        
         See `Django's MultipleObjectMixin.paginate_queryset`_.
 
     .. method:: get_paginate_by(query_object)
-
-        Returns the number of items to paginate by, or None for no pagination.
 
         See `Django's MultipleObjectMixin.get_paginate_by`_.
 
