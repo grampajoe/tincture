@@ -9,6 +9,39 @@ Class-based generic views
 Mixins
 ======
 
+Single object mixins
+--------------------
+
+SingleObjectMixin
+~~~~~~~~~~~~~~~~~
+.. class:: SingleObjectMixin()
+
+    .. attribute:: model
+
+        The SQLAlchemy model that this view will display data for. Specifying
+        ``model = Foo`` is effectively the same as specifying
+        ``query_object = session.query(Foo)``.
+
+    .. attribute:: query_object
+
+        A SQLAlchemy Query object.
+
+        See `Django's SingleObjectMixin.queryset`_.
+
+    .. method:: get_object(query_object=None)
+
+        Returns the single object this view will display. If ``query_object``
+        is provided, it will be used to obtain the object. Otherwise,
+        :meth:`~SingleObjectMixin.get_query_object` will be used.
+
+    .. method:: get_query_object()
+
+        Returns the SQLAlchemy Query object that represents the data this view
+        will display.
+
+        See `Django's SingleObjectMixin.get_queryset`_.
+
+
 Multiple object mixins
 ----------------------
 
@@ -61,6 +94,10 @@ MultipleObjectMixin
 
 .. _Django: http://djangoproject.com
 .. _Django's Documentation: http://docs.djangoproject.com/en/1.4/
+
+.. _Django's SingleObjectMixin.queryset: https://docs.djangoproject.com/en/1.4/ref/class-based-views/#django.views.generic.detail.SingleObjectMixin.queryset
+.. _Django's SingleObjectMixin.get_queryset: https://docs.djangoproject.com/en/1.4/ref/class-based-views/#django.views.generic.detail.SingleObjectMixin.get_queryset
+
 .. _Django's MultipleObjectMixin.queryset: https://docs.djangoproject.com/en/1.4/ref/class-based-views/#django.views.generic.list.MultipleObjectMixin.queryset
 .. _Django's MultipleObjectMixin.get_queryset: https://docs.djangoproject.com/en/1.4/ref/class-based-views/#django.views.generic.list.MultipleObjectMixin.get_queryset
 .. _Django's MultipleObjectMixin.paginate_queryset: https://docs.djangoproject.com/en/1.4/ref/class-based-views/#django.views.generic.list.MultipleObjectMixin.paginate_queryset
