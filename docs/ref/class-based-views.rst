@@ -30,6 +30,11 @@ MultipleObjectMixin
 
     .. method:: get_query_object()
 
+        Returns the SQLAlchemy Query object that represents the data this view
+        will display.
+
+        See `Django's MultipleObjectMixin.get_queryset`_.
+
     .. method:: paginate_query_object(query_object, page_size)
 
         Returns a 4-tuple containing (paginator, page, object_list,
@@ -57,6 +62,7 @@ MultipleObjectMixin
 .. _Django: http://djangoproject.com
 .. _Django's Documentation: http://docs.djangoproject.com/en/1.4/
 .. _Django's MultipleObjectMixin.queryset: https://docs.djangoproject.com/en/1.4/ref/class-based-views/#django.views.generic.list.MultipleObjectMixin.queryset
+.. _Django's MultipleObjectMixin.get_queryset: https://docs.djangoproject.com/en/1.4/ref/class-based-views/#django.views.generic.list.MultipleObjectMixin.get_queryset
 .. _Django's MultipleObjectMixin.paginate_queryset: https://docs.djangoproject.com/en/1.4/ref/class-based-views/#django.views.generic.list.MultipleObjectMixin.paginate_queryset
 .. _Django's MultipleObjectMixin.get_paginate_by: https://docs.djangoproject.com/en/1.4/ref/class-based-views/#django.views.generic.list.MultipleObjectMixin.get_paginate_by
 .. _Django's MultipleObjectMixin.get_paginator: https://docs.djangoproject.com/en/1.4/ref/class-based-views/#django.views.generic.list.MultipleObjectMixin.get_paginator
