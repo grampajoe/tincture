@@ -12,6 +12,7 @@ class SingleObjectMixin(object):
     pk_url_kwargs = ('pk',)
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
+    context_object_name = None
 
     def get_object(self, query_object=None):
         """Returns the object the view is displaying."""
@@ -54,3 +55,10 @@ class SingleObjectMixin(object):
                     '%(cls)s.query_object, or override %(cls)s.get_object.'
                     % {'cls': self.__class__.__name__})
         return self.query_object
+
+    def get_context_object_name(self, obj):
+        """Get the object's context name."""
+        if self.context_object_name:
+            return self.context_object_name
+        else:
+            return obj.__class__.__name__.lower()

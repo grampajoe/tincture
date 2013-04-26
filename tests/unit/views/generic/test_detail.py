@@ -114,3 +114,21 @@ class TestSingleObjectMixin(unittest.TestCase):
         obj = mixin.get_object(query_object=query_object)
 
         self.assertIs(obj, query_object.get.return_value)
+
+    def test_get_context_object_name(self):
+        """Test the get_context_object_name method."""
+        mixin = SingleObjectMixin()
+        obj = mock.Mock()
+
+        name = mixin.get_context_object_name(obj)
+
+        self.assertEqual(name, obj.__class__.__name__.lower())
+
+    def test_get_context_object_name_provided(self):
+        """Test manually providing a context object name."""
+        mixin = SingleObjectMixin()
+        mixin.context_object_name = mock.sentinel.name
+
+        name = mixin.get_context_object_name(None)
+
+        self.assertEqual(name, mixin.context_object_name)
