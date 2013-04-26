@@ -28,6 +28,11 @@ SingleObjectMixin
 
         See `Django's SingleObjectMixin.queryset`_.
 
+    .. attribute:: session
+
+        A SQLAlchemy Session instance. This session will be used to generate
+        a Query object for the view.
+
     .. attribute:: pk_url_kwargs
 
         A tuple of URLconf keword argument names that comprise the primary
@@ -66,6 +71,11 @@ MultipleObjectMixin
         A SQLAlchemy Query object.
 
         See `Django's MultipleObjectMixin.queryset`_.
+
+    .. attribute:: session
+
+        A SQLAlchemy Session instance. This session will be used to generate
+        a Query object for the view.
 
     .. method:: get_query_object()
 
