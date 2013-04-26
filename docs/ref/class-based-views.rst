@@ -28,6 +28,12 @@ SingleObjectMixin
 
         See `Django's SingleObjectMixin.queryset`_.
 
+    .. attribute:: pk_url_kwargs
+
+        A tuple of URLconf keword argument names that comprise the primary
+        key. The default is ``('pk',)``. Note that this is named differently
+        from `Django's SingleObjectMixin.pk_url_kwarg`_.
+
     .. method:: get_object(query_object=None)
 
         Returns the single object this view will display. If ``query_object``
@@ -91,6 +97,7 @@ MultipleObjectMixin
 .. _Django's Documentation: http://docs.djangoproject.com/en/1.4/
 
 .. _Django's SingleObjectMixin.queryset: https://docs.djangoproject.com/en/1.4/ref/class-based-views/#django.views.generic.detail.SingleObjectMixin.queryset
+.. _Django's SingleObjectMixin.pk_url_kwarg: https://docs.djangoproject.com/en/1.4/ref/class-based-views/#django.views.generic.detail.SingleObjectMixin.pk_url_kwarg
 .. _Django's SingleObjectMixin.get_queryset: https://docs.djangoproject.com/en/1.4/ref/class-based-views/#django.views.generic.detail.SingleObjectMixin.get_queryset
 
 .. _Django's MultipleObjectMixin.queryset: https://docs.djangoproject.com/en/1.4/ref/class-based-views/#django.views.generic.list.MultipleObjectMixin.queryset
