@@ -100,7 +100,9 @@ MultipleObjectMixin
 
         Returns the context variable name that will be used to contain the
         list of data that this view is manipulating. If object_list is a
-        SQLAlchemy Query object, it'll somehow find the name of the model.
+        SQLAlchemy Query object, it'll use the lowercased name of the first
+        entity in the query. For example, a query for the Person and Dog
+        models will return 'person_list'.
 
 
 .. _Django: http://djangoproject.com
