@@ -1,18 +1,16 @@
 from django.core.exceptions import ImproperlyConfigured
 from django.http import Http404
 
+from django.views.generic.detail import SingleObjectMixin
+
 from sqlalchemy.orm.exc import NoResultFound
 
 
-class SingleObjectMixin(object):
+class SingleObjectMixin(SingleObjectMixin):
     """An analog to Django's SingleObjectMixin."""
-    model = None
     query_object = None
     session = None
     pk_url_kwargs = ('pk',)
-    slug_field = 'slug'
-    slug_url_kwarg = 'slug'
-    context_object_name = None
 
     def get_object(self, query_object=None):
         """Returns the object the view is displaying."""
