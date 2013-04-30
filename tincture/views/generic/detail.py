@@ -1,7 +1,8 @@
 from django.core.exceptions import ImproperlyConfigured
 from django.http import Http404
 
-from django.views.generic.detail import SingleObjectMixin
+from django.views.generic.detail import (
+    SingleObjectMixin, BaseDetailView, SingleObjectTemplateResponseMixin)
 
 from sqlalchemy.orm.exc import NoResultFound
 
@@ -60,3 +61,21 @@ class SingleObjectMixin(SingleObjectMixin):
             return self.context_object_name
         else:
             return obj.__class__.__name__.lower()
+
+
+class BaseDetailView(SingleObjectMixin, BaseDetailView):
+    pass
+
+
+class SingleObjectTemplateResponseMixin(SingleObjectTemplateResponseMixin):
+    def get_template_names(self):
+        """Return a list of template names."""
+        names = super(SingleObjectTemplateResponseMixin,
+                     self).get_template_names()
+
+        names.append('%(name)s%(suffix)s.html' % {
+            'name': self.object.__class__.__name__.lower(),
+            'suffix': self.template_name_suffix,
+        })
+
+        return names

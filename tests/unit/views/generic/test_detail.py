@@ -9,7 +9,8 @@ from django.http import Http404
 
 from sqlalchemy.orm.exc import NoResultFound
 
-from tincture.views.generic.detail import SingleObjectMixin
+from tincture.views.generic.detail import (
+    SingleObjectMixin, SingleObjectTemplateResponseMixin)
 
 
 class TestSingleObjectMixin(unittest.TestCase):
@@ -132,3 +133,21 @@ class TestSingleObjectMixin(unittest.TestCase):
         name = mixin.get_context_object_name(None)
 
         self.assertEqual(name, mixin.context_object_name)
+
+
+class TestSingleTemplateMixin(unittest.TestCase):
+    """Tests for SingleObjectTemplateResponseMixin."""
+    def setUp(self):
+        self.mixin = SingleObjectTemplateResponseMixin()
+        self.mixin.object = mock.Mock(spec=object)
+
+    def test_get_template_names(self):
+        """Test getting template names."""
+        class Thingy:
+            """A thingy."""
+            pass
+        self.mixin.object = Thingy()
+
+        names = self.mixin.get_template_names()
+
+        self.assertIn('thingy_detail.html', names)
