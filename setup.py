@@ -3,7 +3,7 @@ from distutils.core import setup
 
 setup(
     name='tincture',
-    version='0.0.0',
+    version='0.1.0',
     description='Django and SQLAlchemy all mixed up.',
     license='MIT',
     author='Joe Friedl',
