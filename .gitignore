@@ -1,3 +1,4 @@
 *.py[co]
 /build/
 /docs/_build/
+tests.db
