@@ -12,6 +12,8 @@ Mixins
 Single object mixins
 --------------------
 
+.. currentmodule:: tincture.views.generic.detail
+
 SingleObjectMixin
 ~~~~~~~~~~~~~~~~~
 .. class:: SingleObjectMixin()
@@ -73,6 +75,8 @@ SingleObjectTemplateResponseMixin
 Multiple object mixins
 ----------------------
 
+.. currentmodule:: tincture.views.generic.list
+
 MultipleObjectMixin
 ~~~~~~~~~~~~~~~~~~~
 .. class:: MultipleObjectMixin()
@@ -121,6 +125,24 @@ MultipleObjectMixin
         entity in the query. For example, a query for the Person and Dog
         models will return 'person_list'.
 
+Generic views
+=============
+
+Detail views
+------------
+
+DetailView
+~~~~~~~~~~
+.. class:: BaseDetailView()
+.. class:: DetailView()
+
+    See `Django's DetailView`_.
+
+    **Mixins**
+
+    * :class:`tincture.views.generic.detail.SingleObjectMixin`
+    * :class:`tincture.views.generic.detail.SingleObjectTemplateResponseMixin`
+
 
 .. _Django: http://djangoproject.com
 .. _Django's Documentation: http://docs.djangoproject.com/en/1.4/
@@ -136,3 +158,5 @@ MultipleObjectMixin
 .. _Django's MultipleObjectMixin.paginate_queryset: https://docs.djangoproject.com/en/1.4/ref/class-based-views/#django.views.generic.list.MultipleObjectMixin.paginate_queryset
 .. _Django's MultipleObjectMixin.get_paginate_by: https://docs.djangoproject.com/en/1.4/ref/class-based-views/#django.views.generic.list.MultipleObjectMixin.get_paginate_by
 .. _Django's MultipleObjectMixin.get_paginator: https://docs.djangoproject.com/en/1.4/ref/class-based-views/#django.views.generic.list.MultipleObjectMixin.get_paginator
+
+.. _Django's DetailView: https://docs.djangoproject.com/en/1.4/ref/class-based-views/#django.views.generic.detail.DetailView
