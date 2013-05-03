@@ -1,4 +1,7 @@
 *.py[co]
+MANIFEST
 /build/
 /docs/_build/
+/dist/
+
 tests.db
