@@ -99,7 +99,7 @@ class TestSingleObjectMixin(unittest.TestCase):
         mixin.kwargs = {'pk': 'test'}
 
         query_object = mock.Mock()
-        query_object.get.side_effect = NoResultFound
+        query_object.get.return_value = None
 
         mixin.get_query_object = mock.Mock(return_value=query_object)
 

@@ -35,6 +35,9 @@ class SingleObjectMixin(SingleObjectMixin):
         except NoResultFound as e:
             raise Http404(e)
 
+        if obj is None:
+            raise Http404('No result found.')
+
         return obj
 
     def get_query_object(self):
@@ -79,3 +82,8 @@ class SingleObjectTemplateResponseMixin(SingleObjectTemplateResponseMixin):
         })
 
         return names
+
+
+class DetailView(SingleObjectTemplateResponseMixin, BaseDetailView):
+    """Render a detail view of an object."""
+    pass
