@@ -9,6 +9,24 @@ Class-based generic views
 Mixins
 ======
 
+Session
+-------
+
+.. currentmodule:: tincture.views.generic.session
+
+SessionMixin
+~~~~~~~~~~~~
+.. class:: SessionMixin()
+
+    .. attribute:: session
+
+        A SQLAlchemy session instance.
+
+    .. method:: get_session()
+
+        Returns a SQLAlchemy session instance. By default, this returns
+        :attr:`SessionMixin.session`.
+
 Single object mixins
 --------------------
 
@@ -162,6 +180,7 @@ DetailView
 
     **Mixins**
 
+    * :class:`tincture.views.generic.session.SessionMixin`
     * :class:`tincture.views.generic.detail.SingleObjectMixin`
     * :class:`tincture.views.generic.detail.SingleObjectTemplateResponseMixin`
 
@@ -178,6 +197,7 @@ ListView
 
     **Mixins**
 
+    * :class:`tincture.views.generic.session.SessionMixin`
     * :class:`tincture.views.generic.list.MultipleObjectMixin`
     * :class:`tincture.views.generic.list.MultipleObjectTemplateResponseMixin`
 
