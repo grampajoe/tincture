@@ -125,11 +125,33 @@ MultipleObjectMixin
         entity in the query. For example, a query for the Person and Dog
         models will return 'person_list'.
 
+MultipleObjectTemplateResponseMixin
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. class:: MultipleObjectTemplateResponseMixin()
+
+    .. method:: get_template_names()
+
+        Returns a list of template names. In addition to the template names
+        from Django that aren't based on the model, this returns:
+
+        * ``<lowercase model class name><template_name_suffix>.html``
+
+        The Query object's first entity is used to retrieve the class name
+        used here.
+
+        .. note::
+            With SQLAlchemy there's no built-in way to detect an app name,
+            so you may want to provide your own implementation of this method
+            to make template discovery more robust.
+
+        See `Django's MultipleObjectTemplateResponseMixin.get_template_names`_.
+
 Generic views
 =============
 
 Detail views
 ------------
+.. currentmodule:: tincture.views.generic.detail
 
 DetailView
 ~~~~~~~~~~
@@ -142,6 +164,23 @@ DetailView
 
     * :class:`tincture.views.generic.detail.SingleObjectMixin`
     * :class:`tincture.views.generic.detail.SingleObjectTemplateResponseMixin`
+
+List views
+----------
+.. currentmodule:: tincture.views.generic.list
+
+ListView
+~~~~~~~~
+.. class:: BaseListView()
+.. class:: ListView()
+
+    See `Django's ListView`_.
+
+    **Mixins**
+
+    * :class:`tincture.views.generic.list.MultipleObjectMixin`
+    * :class:`tincture.views.generic.list.MultipleObjectTemplateResponseMixin`
+
 
 
 .. _Django: http://djangoproject.com
@@ -159,4 +198,8 @@ DetailView
 .. _Django's MultipleObjectMixin.get_paginate_by: https://docs.djangoproject.com/en/1.4/ref/class-based-views/#django.views.generic.list.MultipleObjectMixin.get_paginate_by
 .. _Django's MultipleObjectMixin.get_paginator: https://docs.djangoproject.com/en/1.4/ref/class-based-views/#django.views.generic.list.MultipleObjectMixin.get_paginator
 
+.. _Django's MultipleObjectTemplateResponseMixin.get_template_names: https://docs.djangoproject.com/en/1.4/ref/class-based-views/#django.views.generic.list.MultipleObjectTemplateResponseMixin.get_template_names
+
 .. _Django's DetailView: https://docs.djangoproject.com/en/1.4/ref/class-based-views/#django.views.generic.detail.DetailView
+
+.. _Django's ListView: https://docs.djangoproject.com/en/1.4/ref/class-based-views/#django.views.generic.list.ListView
