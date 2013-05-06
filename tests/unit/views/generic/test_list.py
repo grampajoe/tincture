@@ -8,7 +8,8 @@ from django.core.exceptions import ImproperlyConfigured
 from django.core.paginator import InvalidPage
 from django.http import HttpResponse, Http404
 
-from tincture.views.generic.list import MultipleObjectMixin, BaseListView
+from tincture.views.generic.list import (
+    MultipleObjectMixin, BaseListView, MultipleObjectTemplateResponseMixin)
 
 
 class TestMultipleObjectMixin(unittest.TestCase):
@@ -164,3 +165,34 @@ class TestBaseListView(unittest.TestCase):
         view.get_query_object = mock.Mock(return_value=[])
 
         self.assertRaises(Http404, view.get, mock.sentinel.request)
+
+
+class TestMultipleObjectTemplateResponseMixin(unittest.TestCase):
+    """Tests for MultipleObjectTemplateResponseMixin."""
+    def test_get_template_names(self):
+        """Test getting template names for multiple objects."""
+        class Thingy(object):
+            pass
+        entity = mock.Mock()
+        entity.type = Thingy
+
+        class Query(object):
+            _entity_zero = mock.Mock(return_value=entity)
+
+        query_object = Query()
+
+        mixin = MultipleObjectTemplateResponseMixin()
+        mixin.object_list = query_object
+
+        names = mixin.get_template_names()
+
+        self.assertIn('thingy_list.html', names)
+
+    def test_get_template_names_list(self):
+        """Test getting template names with a list."""
+        mixin = MultipleObjectTemplateResponseMixin()
+        mixin.object_list = ['thing']
+
+        names = mixin.get_template_names()
+
+        self.assertEqual(names, [])

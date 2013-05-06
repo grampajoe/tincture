@@ -1,8 +1,9 @@
+from sqlalchemy.orm import Query
 from django.core.exceptions import ImproperlyConfigured
 from django.core.paginator import InvalidPage
 from django.http import Http404
-
-from django.views.generic.list import MultipleObjectMixin
+from django.views.generic.list import (
+    MultipleObjectMixin, MultipleObjectTemplateResponseMixin)
 from django.views.generic import View
 
 
@@ -89,12 +90,41 @@ class MultipleObjectMixin(MultipleObjectMixin):
 
 class BaseListView(MultipleObjectMixin, View):
     def get(self, request, *args, **kwargs):
+        def length(object_list):
+            """Get the length of either a Query object or a list."""
+            if isinstance(object_list, Query):
+                return object_list.count()
+            else:
+                return len(object_list)
+
         self.object_list = self.get_query_object()
 
         allow_empty = self.get_allow_empty()
-        if not allow_empty and len(self.object_list) == 0:
+        if not allow_empty and length(self.object_list) == 0:
             raise Http404
 
         context = self.get_context_data(object_list=self.object_list)
 
         return self.render_to_response(context)
+
+
+class MultipleObjectTemplateResponseMixin(MultipleObjectTemplateResponseMixin):
+    def get_template_names(self):
+        """Get a list of template names based on the view's object list."""
+        names = super(
+            MultipleObjectTemplateResponseMixin, self
+        ).get_template_names()
+
+        if hasattr(self.object_list, '_entity_zero'):
+            entity = self.object_list._entity_zero()
+            names.append(
+                '%s%s.html' %
+                (entity.type.__name__.lower(), self.template_name_suffix)
+            )
+
+        return names
+
+
+class ListView(MultipleObjectTemplateResponseMixin, BaseListView):
+    """Render a list of objects."""
+    pass
