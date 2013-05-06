@@ -3,6 +3,7 @@ from django.core.paginator import InvalidPage
 from django.http import Http404
 
 from django.views.generic.list import MultipleObjectMixin
+from django.views.generic import View
 
 
 class MultipleObjectMixin(MultipleObjectMixin):
@@ -84,3 +85,16 @@ class MultipleObjectMixin(MultipleObjectMixin):
             context[context_object_name] = query_object
 
         return context
+
+
+class BaseListView(MultipleObjectMixin, View):
+    def get(self, request, *args, **kwargs):
+        self.object_list = self.get_query_object()
+
+        allow_empty = self.get_allow_empty()
+        if not allow_empty and len(self.object_list) == 0:
+            raise Http404
+
+        context = self.get_context_data(object_list=self.object_list)
+
+        return self.render_to_response(context)

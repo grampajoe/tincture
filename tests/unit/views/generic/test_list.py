@@ -6,9 +6,9 @@ import mock
 
 from django.core.exceptions import ImproperlyConfigured
 from django.core.paginator import InvalidPage
-from django.http import Http404
+from django.http import HttpResponse, Http404
 
-from tincture.views.generic.list import MultipleObjectMixin
+from tincture.views.generic.list import MultipleObjectMixin, BaseListView
 
 
 class TestMultipleObjectMixin(unittest.TestCase):
@@ -135,3 +135,32 @@ class TestMultipleObjectMixin(unittest.TestCase):
         context = self.mixin.get_context_data(object_list=query_object)
 
         self.assertIs(context['test'], query_object)
+
+
+class TestBaseListView(unittest.TestCase):
+    """Tests for BaseListView."""
+    def test_get(self):
+        """Test the BaseListView.get."""
+        view = BaseListView()
+        view.render_to_response = mock.Mock()
+        view.get_context_data = mock.Mock()
+        view.get_query_object = mock.Mock()
+
+        response = view.get(mock.sentinel.request)
+
+        view.get_context_data.assert_called_with(
+            object_list=view.get_query_object.return_value)
+
+        view.render_to_response.assert_called_with(
+            view.get_context_data.return_value)
+        self.assertIs(response, view.render_to_response.return_value)
+
+        self.assertIs(view.object_list, view.get_query_object.return_value)
+
+    def test_get_no_allow_empty(self):
+        """Test BaseListView.get with allow_empty = False."""
+        view = BaseListView()
+        view.allow_empty = False
+        view.get_query_object = mock.Mock(return_value=[])
+
+        self.assertRaises(Http404, view.get, mock.sentinel.request)
