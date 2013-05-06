@@ -29,23 +29,25 @@ class TestMultipleObjectMixin(unittest.TestCase):
 
     def test_get_query_object_model(self):
         """Test getting a query object from a model."""
-        self.mixin.session = mock.Mock()
+        self.mixin.get_session = mock.Mock()
+        session = self.mixin.get_session.return_value
         self.mixin.model = mock.Mock()
 
         query_object = self.mixin.get_query_object()
 
-        self.mixin.session.query.assert_called_with(self.mixin.model)
-        self.assertIs(query_object, self.mixin.session.query.return_value)
+        session.query.assert_called_with(self.mixin.model)
+        self.assertIs(query_object, session.query.return_value)
 
     def test_get_query_object_model_no_session(self):
         """Test getting a query object from a model with no session."""
         self.mixin.model = mock.Mock()
+        self.mixin.get_session = mock.Mock(return_value=None)
 
         self.assertRaises(ImproperlyConfigured, self.mixin.get_query_object)
 
     def test_get_query_object_nothing(self):
         """Test getting a query object with nothing defined."""
-        self.mixin.session = mock.Mock()
+        self.mixin.get_session = mock.Mock()
 
         self.assertRaises(ImproperlyConfigured, self.mixin.get_query_object)
 

@@ -6,23 +6,25 @@ from django.views.generic.list import (
     MultipleObjectMixin, MultipleObjectTemplateResponseMixin)
 from django.views.generic import View
 
+from tincture.views.generic.session import SessionMixin
+
 
 class MultipleObjectMixin(MultipleObjectMixin):
     """A mixin for multiple objects."""
     query_object = None
-    session = None
 
     def get_query_object(self):
         """Get the list of items for this view."""
         if self.query_object is not None:
             return self.query_object
         elif self.model is not None:
-            if self.session is None:
+            session = self.get_session()
+            if session is None:
                 raise ImproperlyConfigured(
                     '%(cls)s is missing a session. Define %(cls)s.session '
                     'or %(cls)s.query_object.'
                     % {'cls': self.__class__.__name__})
-            return self.session.query(self.model)
+            return session.query(self.model)
         else:
             raise ImproperlyConfigured(
                 '%(cls)s is missing a query object. Define %(cls)s.model or '
@@ -88,7 +90,7 @@ class MultipleObjectMixin(MultipleObjectMixin):
         return context
 
 
-class BaseListView(MultipleObjectMixin, View):
+class BaseListView(SessionMixin, MultipleObjectMixin, View):
     def get(self, request, *args, **kwargs):
         def length(object_list):
             """Get the length of either a Query object or a list."""

@@ -28,16 +28,18 @@ class TestSingleObjectMixin(unittest.TestCase):
         """Test getting a query object from a model."""
         mixin = SingleObjectMixin()
         mixin.model = mock.Mock()
-        mixin.session = mock.Mock()
+        mixin.get_session = mock.Mock()
+        session = mixin.get_session.return_value
 
         query_object = mixin.get_query_object()
 
-        mixin.session.query.assert_called_with(mixin.model)
-        self.assertIs(query_object, mixin.session.query.return_value)
+        session.query.assert_called_with(mixin.model)
+        self.assertIs(query_object, session.query.return_value)
 
     def test_get_query_object_none(self):
         """Test not providing query_object or model."""
         mixin = SingleObjectMixin()
+        mixin.get_session = mock.Mock()
 
         self.assertRaises(ImproperlyConfigured, mixin.get_query_object)
 
@@ -45,6 +47,7 @@ class TestSingleObjectMixin(unittest.TestCase):
         """Test not providing a session."""
         mixin = SingleObjectMixin()
         mixin.model = mock.Mock()
+        mixin.get_session = mock.Mock(return_value=None)
 
         self.assertRaises(ImproperlyConfigured, mixin.get_query_object)
 

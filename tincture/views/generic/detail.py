@@ -6,6 +6,8 @@ from django.views.generic.detail import (
 
 from sqlalchemy.orm.exc import NoResultFound
 
+from tincture.views.generic.session import SessionMixin
+
 
 class SingleObjectMixin(SingleObjectMixin):
     """An analog to Django's SingleObjectMixin."""
@@ -43,14 +45,15 @@ class SingleObjectMixin(SingleObjectMixin):
     def get_query_object(self):
         """Get the query object to use for object lookup."""
         if self.query_object is None:
-            if self.session is None:
+            session = self.get_session()
+            if session is None:
                 raise ImproperlyConfigured(
                     '%(cls)s is missing a session. Define %(cls)s.session '
                     'or %(cls)s.query_object.'
                     % {'cls': self.__class__.__name__})
 
             if self.model:
-                return self.session.query(self.model)
+                return session.query(self.model)
             else:
                 raise ImproperlyConfigured(
                     '%(cls)s is missing a query object. Define %(cls)s.model or '
@@ -66,7 +69,7 @@ class SingleObjectMixin(SingleObjectMixin):
             return obj.__class__.__name__.lower()
 
 
-class BaseDetailView(SingleObjectMixin, BaseDetailView):
+class BaseDetailView(SessionMixin, SingleObjectMixin, BaseDetailView):
     pass
 
 
