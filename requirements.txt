@@ -1,2 +1,2 @@
-Django==1.4
+Django==2.2.27
 SQLAlchemy==0.7.8
